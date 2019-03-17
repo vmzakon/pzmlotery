@@ -12,7 +12,7 @@ public class Ticket {
     private Long id;
 
     @Column(name = "BUY_DATE")
-    private Date buydate;
+    private Date date;
 
     public Ticket(Long id) {
     }
