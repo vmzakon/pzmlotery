@@ -8,7 +8,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd   http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
     <!--для работы с проперти файлом-->
-    <context:property-placeholder location="classpath*:db/jdbc.properties"/>
+    <context:property-placeholder location="classpath*:data/jdbc.properties"/>
 
     <!--подключаем декларативное управление mvc компонентами-->
     <mvc:annotation-driven/>
@@ -20,34 +20,8 @@
     </bean>
 
     <!--указываем пакет для сканирования компонентов-->
-    <context:component-scan base-package="home.pzmlotery"/>
+    <context:component-scan base-package="home.pzmlottery"/>
 
-    <!--создаем доступ к BD-->
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
-        <property name="url" value="${jdbc.url}"/>
-        <property name="driverClassName" value="${jdbc.driverClassName}"/>
-        <property name="username" value="${jdbc.username}"/>
-        <property name="password" value="${jdbc.password}"/>
-        <property name="initialSize" value="5"/>
-        <property name="maxActive" value="15"/>
-    </bean>
 
-    <!--подключаем фабрику сессий гибернейта-->
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
-        <property name="dataSource" ref="dataSource"/>
-        <property name="packagesToScan" value="home.pzmlotery.entity"/>
-        <property name="hibernateProperties">
-            <props>
-                <prop key="hibernate.show_sql">true</prop>
-                <prop key="hibernate.enable_lazy_load_no_trans">true</prop>
-                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
-            </props>
-        </property>
-    </bean>
-
-    <!--подключаем менеджер транзакций-->
-    <bean id="txManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
 
 </beans>

@@ -1,4 +1,4 @@
-package home.pzmlotery.service;
+package home.pzmlottery.service;
 
 import org.springframework.stereotype.Service;
 

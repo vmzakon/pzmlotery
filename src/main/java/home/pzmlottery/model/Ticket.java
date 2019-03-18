@@ -1,4 +1,4 @@
-package home.pzmlotery.entity;
+package home.pzmlottery.model;
 
 import javax.persistence.*;
 import java.util.Date;
