@@ -2,28 +2,35 @@ package home.pzmlottery.model;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "TRANSACTIONS")
 public class Transaction {
+
+    public enum Type {
+        IN,
+        OUT,
+        GENESIS
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "IDINBLOCKCHAIN")
-    private String idInBlockchain;
+    private String idinblockchain;
 
     @Column(name = "TIMESTAMP")
     private Long timestamp;
 
-    @Column(name = "SENDERRS")
+    @Column(name = "SENDER_RS")
     private String senderRS;
 
     @Column(name = "TYPE")
     private Type type ;
 
-    @Column(name = "AMOUNTNQT")
+    @Column(name = "AMOUNT_NQT")
     private Long amountNQT;
 
     @Column(name = "CONFIRMATION")
@@ -31,6 +38,13 @@ public class Transaction {
 
     @Column(name = "COMMENT")
     private String comment;
+
+    @OneToMany(mappedBy = "transaction", fetch = FetchType.LAZY)
+    private Set<Ticket> tickets;
+
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "DRAW_ID")
+    private Draw draw;
 
     public Transaction() {
     }
@@ -43,12 +57,12 @@ public class Transaction {
         this.id = id;
     }
 
-    public String getIdInBlockchain() {
-        return idInBlockchain;
+    public String getIdinblockchain() {
+        return idinblockchain;
     }
 
-    public void setIdInBlockchain(String idInBlockchain) {
-        this.idInBlockchain = idInBlockchain;
+    public void setIdinblockchain(String idinblockchain) {
+        this.idinblockchain = idinblockchain;
     }
 
     public Long getTimestamp() {
@@ -99,43 +113,47 @@ public class Transaction {
         this.comment = comment;
     }
 
+    public Set<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(Set<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+
+    public Draw getDraw() {
+        return draw;
+    }
+
+    public void setDraw(Draw draw) {
+        this.draw = draw;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Transaction that = (Transaction) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(idInBlockchain, that.idInBlockchain) &&
-                Objects.equals(timestamp, that.timestamp) &&
-                Objects.equals(senderRS, that.senderRS) &&
-                type == that.type &&
-                Objects.equals(amountNQT, that.amountNQT) &&
-                Objects.equals(confirmations, that.confirmations) &&
-                Objects.equals(comment, that.comment);
+        return Objects.equals(idinblockchain, that.idinblockchain);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, idInBlockchain, timestamp, senderRS, type, amountNQT, confirmations, comment);
+        return Objects.hash(id, idinblockchain, timestamp, senderRS, type, amountNQT, confirmations, comment, tickets, draw);
     }
 
     @Override
     public String toString() {
         return "Transaction{" +
                 "id=" + id +
-                ", idInBlockchain=" + idInBlockchain +
+                ", idinblockchain='" + idinblockchain + '\'' +
                 ", timestamp=" + timestamp +
                 ", senderRS='" + senderRS + '\'' +
                 ", type=" + type +
                 ", amountNQT=" + amountNQT +
                 ", confirmations=" + confirmations +
                 ", comment='" + comment + '\'' +
+                ", draw=" + draw +
                 '}';
-    }
-
-    public enum Type {
-        IN,
-        OUT,
-        GENESIS
     }
 }

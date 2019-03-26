@@ -2,11 +2,12 @@ package home.pzmlottery.repository;
 
 import home.pzmlottery.model.Transaction;
 
-import java.util.List;
 
 public interface TransactionRepository {
-    void insertTransaction();
-    List<Transaction> getAllTransaction();
+
+    void saveTransaction(Transaction transaction);
     Transaction getLastTransaction();
+    Transaction getTransactionByIdInBlockchain(String idInBlockchain);
+
 
 }
